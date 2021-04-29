@@ -11,7 +11,7 @@ let Mundo = {}
 ////////////////////////
 
 let scoreElem;
-let scoreValue;
+let Puntaje;
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
  */
@@ -58,7 +58,7 @@ const dy = 20;
  * Esto se llama antes de iniciar el juego
  */
 function setup() {
-  scoreValue =0;
+  Puntaje =0;
  scoreElem = createDiv('Score = 0');
   scoreElem.position(20, 20);
   scoreElem.id = 'score';
@@ -105,8 +105,8 @@ function drawGame(Mundo){
 function onTic(Mundo){
   
 if((first(Mundo.snake)['x'] == Mundo.food['x']) && (first(Mundo.snake)['y'] == Mundo.food['y'])){
-  scoreValue =scoreValue+100;
-  scoreElem.html('Score = '+scoreValue)
+  Puntaje =Puntaje+100;
+  scoreElem.html('Score = '+Puntaje)
   
   return update(growSnake(Mundo), {food: {x: Math.round(Math.random() * 24), y:Math.round(Math.random() * 24)}})    
 }
