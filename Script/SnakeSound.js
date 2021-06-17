@@ -30,14 +30,46 @@ let introS;
 /**
  * Actualiza la serpiente. Creando una nuevo cabeza y removiendo la cola
  */
+
+
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Mover el cuerpo del snake cambiando la posicion de la cabeza dependiendo de la direccion de movimiento y eliminar la cola de la serpiente
+Contrato: Mundo -> Mundo
+Prototipo: moveSnake(snake, dir)
+Ejemplos
+
+*/
+
 function moveSnake(snake, dir) {
   const head = first(snake);
   return cons({ x: head.x + dir.x, y: head.y + dir.y }, snake.slice(0, length(snake) - 1));
 }
 
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Incrementar la longitud del snake. 
+Contrato: Mundo -> Mundo
+Prototipo: growSnake(Mundo)
+Ejemplos
+
+*/
+
 function growSnake(Mundo) {
   return update(Mundo, { snake: append(Mundo.snake, incrementoColaSnake(Mundo)) });
 }
+
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Buscar la cola del snake y crear cuerpo.
+Contrato: Mundo -> Mundo
+Prototipo: incrementoColaSnake(Mundo)
+Ejemplos
+
+*/
 
 function incrementoColaSnake(Mundo) {
   if (isEmpty(rest(Mundo.snake))) {
@@ -47,6 +79,16 @@ function incrementoColaSnake(Mundo) {
     return incrementoColaSnake(update(Mundo, { snake: rest(Mundo.snake) }));
   }
 }
+
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Cambiar la posicion de la fruta en cualquier posicion de forma aleatoria cuando la cabeza del snake pase por ella; cuando se obtengan 10.000 puntos aumentar la cantidad de vidas en 1.
+Contrato: Mundo -> Mundo
+Prototipo: comer(Mundo)
+Ejemplos
+
+*/
 
 function comer(Mundo) {
   scoreValue = scoreValue + 100;
@@ -62,6 +104,16 @@ function comer(Mundo) {
   return update(growSnake(Mundo), { food: { x: Math.round(Math.random() * 24), y: Math.round(Math.random() * 24) } });
 }
 
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Validar si la fruta aparece encima del cuerpo de snake.
+Contrato: Mundo, i -> Mundo
+Prototipo: posicionFood(Mundo, i)
+Ejemplos
+
+*/
+
 function posicionFood(Mundo, i) {
   if ((Mundo.food['x'] == (Mundo.snake)[i]['x']) && (Mundo.food['y'] == (Mundo.snake)[i]['y'])) {
     return 1;
@@ -71,9 +123,29 @@ function posicionFood(Mundo, i) {
   }
 }
 
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Cambiar la posicion de la fruta de forma aleatoria en el area del canvas.
+Contrato: Mundo -> Mundo
+Prototipo: cambiarFood(Mundo)
+Ejemplos
+
+*/
+
 function cambiarFood(Mundo) {
   return update(Mundo, { food: { x: Math.round(Math.random() * 24), y: Math.round(Math.random() * 24) } });
 }
+
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Comprobar si la cabeza de snake choca con alguna parte del cuerpo y disminuir la cantidad de vidas; si las vidas llega a 0, se termina el juego. Si el cabeza no ha chocado, mover a la serpiente.
+Contrato: Mundo, i -> Mundo
+Prototipo: colisionSnake(Mundo,i)
+Ejemplos
+
+*/
 
 function colisionSnake(Mundo, i) {
   const headX = first(Mundo.snake)['x'];
@@ -104,6 +176,16 @@ function colisionSnake(Mundo, i) {
   }
 }
 
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Comprobar si la cabeza de snake choco con el limite del canvas. Si el jugador tiene más de una vida retorna 1, si es igual 1 retorna 0.
+Contrato: Mundo -> number
+Prototipo: colisionPared(Mundo)
+Ejemplos
+
+*/
+
 function colisionPared(Mundo) {
   const headX = first(Mundo.snake)['x'];
   const headY = first(Mundo.snake)['y'];
@@ -118,6 +200,16 @@ function colisionPared(Mundo) {
   }
 }
 
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: Desplegar un mensaje de GameOver y detener el juego.
+Contrato: () -> divID = gameover
+Prototipo: GameOver()
+Ejemplos
+
+*/
+
 function GameOver() {
   title.html("<p class='menu'>Game Over</p>");
   gameOverInfo.html("<p class='info' style='text-align:center'>Tu Puntuacion final: " + scoreValue + "<br><br>Presiona ENTER para reiniciar<br>Presiona ESCAPE para ir al Menu</p>");
@@ -125,6 +217,16 @@ function GameOver() {
 
 const dx = 20;
 const dy = 20;
+
+/*
+* Mundo = {snake: array, dir: object, food: object, life: number, section: string}
+
+Proposito: buscar y cargar archivos de musica.
+Contrato:
+Prototipo: preload() 
+Ejemplos
+
+*/
 
 function preload(){
     sound = loadSound('../Sound/Monkeys.mp3');
@@ -135,6 +237,15 @@ function preload(){
 /**
  * Esto se llama antes de iniciar el juego
  */
+
+/*
+Se crean div donde se pondra strings, 
+Se asigna una posicion dentro HTML.
+Se ponen id para identidicar.
+Se asigna una fuente de texto
+Se asigna color blanco al texto
+*/
+
 function setup() {
   title = createDiv("");
   title.position(0, -450);
@@ -204,10 +315,17 @@ function setup() {
   atras.class("txt-pixel");
   atras.style("color", "white");
 
+/*
+Se ajusta cuadros por segundo
+Se crea area del canvas
+Se da color en RGB al canvas
+Se crea el mundo inicial (Big Bang)
+*/
+
   frameRate(10);
   createCanvas(500, 500);
   background(0, 0, 0);
-  Mundo = { snake: [{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }], dir: { x: 0, y: 0 }, food: { x: Math.round(Math.random() * 24), y: Math.round(Math.random() * 24) }, life: 3, section: "Menú" };
+  Mundo = { snake: [{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }], dir: { x: 0, y: 0 }, food: { x: Math.round(Math.random() * 24), y: Math.round(Math.random() * 24) }, life: 3, section: "Menu" };
 }
 
 
@@ -219,7 +337,11 @@ function drawGame(Mundo) {
   strokeWeight(5);
   rect(0, 0, 500, 500);
 
-  if (Mundo.section == "Menú") {    
+ /*
+ Dependiendo de Mundo.section, desplegar un texto con los div creados en el setup.
+ */ 
+
+  if (Mundo.section == "Menu") {    
     title.html("<p class='menu'>Snake Rattle n' Roll</p>");
     jugar.html("<p class='menu'>Jugar</p>");
     instrucciones.html("<p class='menu'>Instrucciones</p>");
@@ -233,16 +355,25 @@ function drawGame(Mundo) {
     title.html("<p class='menu'>Desarrollador</p>");
     desarrolladorInfo.html("<p class='info'>Mauricio Munoz Gutierrez</p>");
   }
-  if ((Mundo.section != "Menú") && (Mundo.section != "Jugar")) {
+  if ((Mundo.section != "Menu") && (Mundo.section != "Jugar")) {
     atras.html("<p class='menu'>Atras</p>");
   }
   if (Mundo.section == "Jugar") {
     scoreElem.html("Score = " + scoreValue);
     vidasElem.html("Vidas = " + vidasValue);
 
+/*
+Se da color rojo a la fruta.
+*/
+
     fill(255, 0, 0);
     noStroke();
     rect(Mundo.food['x'] * dx, Mundo.food['y'] * dy, dx, dy);
+
+/*
+Se pinta el cuerpo de la serpiente
+Dependiendo de la direccion pintar circulos en la cabeza de snake (Ojos)  
+*/
 
     fill(35, 167, 6);
     noStroke();
@@ -293,8 +424,9 @@ function drawGame(Mundo) {
 
 
 // Esto se ejecuta en cada tic del reloj. Con esto se pueden hacer animaciones
+//Se ejecuta el juego y se llama a la funciones relacionadas con el movimiento y el cuerpo de snake
 function onTic(Mundo) {
-if(Mundo.section == "Menú"){
+if(Mundo.section == "Menu"){
     sound.stop();
     if(introS.isPlaying() == false){
         introS.play();
@@ -334,9 +466,10 @@ if (Mundo.section == "Jugar") {
 }
 
 //Implemente esta función si quiere que su programa reaccione a eventos del mouse
+//Dependiendo de la posicion del mouse dentro del canvas, cuando sa da click se ejecuta una accion.
 function onMouseEvent(Mundo, event) {
   if (event.action == "press") {
-    if (Mundo.section == "Menú") {
+    if (Mundo.section == "Menu") {
       if ((mouseX >= 25) && (mouseX <= 475) && ((mouseY >= 235) && (mouseY <= 260))) {
         title.html("");
         jugar.html("");
@@ -361,7 +494,7 @@ function onMouseEvent(Mundo, event) {
         return update(Mundo, { section: "Desarrollador" });
       }
     }
-    if ((Mundo.section != "Menú") && (Mundo.section != "Jugar")) {
+    if ((Mundo.section != "Menu") && (Mundo.section != "Jugar")) {
       if ((mouseX >= 25) && (mouseX <= 475) && ((mouseY >= 445) && (mouseY <= 470))) {
         title.html("<p>Snake Rattle n' Roll</p>");
         jugar.html("<p>Jugar</p>");
@@ -370,7 +503,7 @@ function onMouseEvent(Mundo, event) {
         instruccionesInfo.html("");
         desarrolladorInfo.html("");
         atras.html("");
-        return update(Mundo, { section: "Menú" });
+        return update(Mundo, { section: "Menu" });
       }
       else return Mundo;
     }
@@ -444,7 +577,7 @@ function onKeyEvent(Mundo, keyCode) {
           instrucciones.html("<p>Instrucciones</p>");
           desarrollador.html("<p>Desarrollador</p>");
           gameOverInfo.html("");
-          Mundo = { snake: [{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }], dir: { x: 0, y: 0 }, food: { x: Math.round(Math.random() * 24), y: Math.round(Math.random() * 24) }, life: 3, section: "Menú" };
+          Mundo = { snake: [{ x: 3, y: 1 }, { x: 2, y: 1 }, { x: 1, y: 1 }], dir: { x: 0, y: 0 }, food: { x: Math.round(Math.random() * 24), y: Math.round(Math.random() * 24) }, life: 3, section: "Menu" };
           return Mundo;
         }
       default:
