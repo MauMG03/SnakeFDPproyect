@@ -24,7 +24,7 @@
 }
 
 body {
-    background-image: url('../images/retro.jpg');
+    background-image: url('../images/retro2.jpeg');
     background-size: cover;
     overflow-y: hidden;
     overflow-x: hidden;
@@ -37,6 +37,15 @@ body {
     font-size: 35px;
     letter-spacing: 2px;
     color: white;
+}
+
+.vidas-txt{
+  font-family: 'advanced_pixel-7regular';
+  font-weight:normal;
+  font-style:normal;
+  font-size: 35px;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 5px #0fa;
 }
 
 .txt-pixel > p.menu:hover {
@@ -53,10 +62,20 @@ body {
     font-weight:normal;
     font-style:normal;
     font-size: 55px;
-    color: white;
-}
+    color: #fff;
+  text-shadow:
+      0 0 7px #fff,
+      0 0 10px #fff,
+      0 0 21px #fff,
+      0 0 42px #0fa,
+      0 0 82px #0fa,
+      0 0 92px #0fa,
+      0 0 102px #0fa,
+      0 0 151px #0fa;
+}    
+      
 
-#title,#jugar,#instrucciones,#desarrollador,#instruccionesInfo,#desarrolladorInfo,#atras,#gameOverInfo{
+#opcion1,#opcion2,#opcion3,#jugar,#instrucciones,#desarrollador, #title,#desarrolladorInfo,#gameOverInfo,#classic,#rattleNRoll,#mirror,#vidas,#score{
     padding: 0;
     margin: auto;
     display: block;
@@ -68,4 +87,59 @@ body {
     left: 0;
     right: 0;
     text-align: center;
+}
+
+#instruccionesInfo{
+      padding: 0;
+    margin: auto;
+    display: block;
+    width: 450px; 
+    height: 0px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: justify;
+}
+
+#atras, #next{
+  padding: 0;
+    margin: auto;
+    display: block;
+    width: 100px; 
+    height: 0px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+#instrucciones2, instrucciones2Info{
+  padding: 0;
+    margin: auto;
+    display: block;
+    width: 450px; 
+    height: 0px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+canvas{
+        padding: 0;
+        margin: auto;
+        display: block;
+        width: 800px;
+        height: 600px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
 }
